@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
+import { login, signUp } from '../http/authAPI';
 import Cookies from 'universal-cookie';
-import axios from 'axios'
+
 import signinImage from '../assets/signup.jpg'
 
 const initialState = {
@@ -28,9 +29,30 @@ const Auth = () => {
     setIsSignup((prev) => !prev)
   }
 
-  const handleSumbit = (e) => {
+  const handleSumbit = async (e) => {
     e.preventDefault();
-    console.log(form)
+    const {fullName, userName, password, avatarURL, phoneNumber} = form;
+
+    const cookies = new Cookies()
+
+    const data = isSignup ? await signUp({fullName, userName, password, avatarURL, phoneNumber}) : await login({userName, password})
+
+    const {token, userId, hashedPassword} = data;
+
+    console.log(data);
+
+    cookies.set('token', token)
+    cookies.set('userId', userId)
+    cookies.set('userName', userName)
+    cookies.set('fullName', fullName)
+
+    if(isSignup) {
+      cookies.set('avatarURL', avatarURL)
+      cookies.set('phoneNumber', phoneNumber)
+      cookies.set('hashedPassword', hashedPassword)
+    }
+
+    window.location.reload();
   }
   
 
@@ -148,7 +170,7 @@ const Auth = () => {
               }
               <span onClick={switchMode}>
                 {
-                  isSignup ? "Sign Up" : "Sign In"
+                  isSignup ? "Sign In" : "Sign Up"
                 }
               </span>
             </p>

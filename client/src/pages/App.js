@@ -5,13 +5,27 @@ import ChanellListContainer from '../components/ChanellListContainer';
 import ChanellContainer from '../components/ChanellContainer';
 import dotenv from 'dotenv';
 import Auth from '../components/Auth'
+import Cookies from 'universal-cookie';
 import '../App.css';
 
 dotenv.config();
 
 const client = StreamChat.getInstance(process.env.REACT_APP_API_KEY)
 
-const authToken = false;
+const cookies = new Cookies();
+
+const authToken = cookies.get('token')
+
+if (authToken) {
+  client.connectUser({
+    id: cookies.get('userId'),
+    name: cookies.get('userName'),
+    fullName: cookies.get('fullName'),
+    image: cookies.get('avatarURL'),
+    phoneNumber: cookies.get('phoneNumber'),
+    hashedPassword: cookies.get('hashedPassword'),
+  }, authToken)
+}
 
 function App() {
 
