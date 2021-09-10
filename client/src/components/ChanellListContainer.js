@@ -3,10 +3,15 @@ import {ChannelList, useChatContext} from 'stream-chat-react';
 import ChannelSearch from './ChannelSearch';
 import CompanyHeader from './CompanyHeader';
 import SideBar from './SideBar';
-import TeamChanellList from './TeamChanellList'
+import TeamChannelList from './TeamChannelList'
 import TeamChanellPreview from './TeamChanellPreview';
 
-const ChanellListContainer = () => {
+const ChanellListContainer = ({
+  isCreating,
+  setIsCreating,
+  setCreateType,
+  setIsEditing
+}) => {
   return (
     <>
       <SideBar />
@@ -18,7 +23,14 @@ const ChanellListContainer = () => {
           filters={{}}
           channelRenderFilterFn={() => {}}
           List={(listProps) => {
-            return <TeamChanellList {...listProps} type='team'/>
+            return <TeamChannelList
+              {...listProps}
+              type='team'
+              isCreating={isCreating}
+              setIsCreating={setIsCreating}
+              setCreateType={setCreateType}
+              setIsEditing={setIsEditing}
+            />
           }}
           Preview={(previewProps) => (
             <TeamChanellPreview {...previewProps} type='team'/>
@@ -29,7 +41,14 @@ const ChanellListContainer = () => {
           filters={{}}
           channelRenderFilterFn={() => {}}
           List={(listProps) => {
-            return <TeamChanellList {...listProps} type='messaging'/>
+            return <TeamChannelList
+              {...listProps} 
+              type='messaging'
+              isCreating={isCreating}
+              setIsCreating={setIsCreating}
+              setCreateType={setCreateType}
+              setIsEditing={setIsEditing}
+            />
           }}
           Preview={(previewProps) => (
             <TeamChanellPreview {...previewProps} type='messaging'/>

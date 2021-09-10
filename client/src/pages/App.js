@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {StreamChat} from 'stream-chat';
 import {Chat} from 'stream-chat-react';
 import ChanellListContainer from '../components/ChanellListContainer';
@@ -6,6 +6,8 @@ import ChanellContainer from '../components/ChanellContainer';
 import dotenv from 'dotenv';
 import Auth from '../components/Auth'
 import Cookies from 'universal-cookie';
+
+import 'stream-chat-react/dist/css/index.css'
 import '../App.css';
 
 dotenv.config();
@@ -29,15 +31,30 @@ if (authToken) {
 
 function App() {
 
-  if(!authToken) return <Auth />
+  const [createType, setCreateType] = useState('')
+  const [isCreating, setIsCreating] = useState('')
+  const [isEditing, setIsEditing] = useState('')
 
+  if(!authToken) return <Auth />
+  
   return (
     <div className="app__wrapper">
       <Chat client={client} theme="team dark">
 
-        <ChanellListContainer />
+        <ChanellListContainer
+          isCreating={isCreating}
+          setIsCreating={setIsCreating}
+          setCreateType={setCreateType}
+          setIsEditing={setIsEditing}
+        />
 
-        <ChanellContainer />
+        <ChanellContainer
+          createType={createType}
+          isCreating={isCreating}
+          setIsCreating={setIsCreating}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+        />
 
       </Chat>
     </div>

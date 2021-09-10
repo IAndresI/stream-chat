@@ -28,7 +28,7 @@ const Auth = () => {
   const switchMode = () => {
     setIsSignup((prev) => !prev)
   }
-
+  
   const handleSumbit = async (e) => {
     e.preventDefault();
     const {fullName, userName, password, avatarURL, phoneNumber} = form;
@@ -39,17 +39,16 @@ const Auth = () => {
 
     const {token, userId, hashedPassword} = data;
 
-    console.log(data);
 
-    cookies.set('token', token)
-    cookies.set('userId', userId)
-    cookies.set('userName', userName)
-    cookies.set('fullName', fullName)
+    cookies.set('token', token, {path: '/', expires: new Date(Date.now()+86400000)})
+    cookies.set('userId', userId, {path: '/', expires: new Date(Date.now()+86400000)})
+    cookies.set('userName', userName, {path: '/', expires: new Date(Date.now()+86400000)})
+    cookies.set('fullName', fullName, {path: '/', expires: new Date(Date.now()+86400000)})
 
     if(isSignup) {
-      cookies.set('avatarURL', avatarURL)
-      cookies.set('phoneNumber', phoneNumber)
-      cookies.set('hashedPassword', hashedPassword)
+      cookies.set('avatarURL', avatarURL, {path: '/', expires: new Date(Date.now()+86400000)})
+      cookies.set('phoneNumber', phoneNumber, {path: '/', expires: new Date(Date.now()+86400000)})
+      cookies.set('hashedPassword', hashedPassword, {path: '/', expires: new Date(Date.now()+86400000)})
     }
 
     window.location.reload();
