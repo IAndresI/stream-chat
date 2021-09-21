@@ -1,63 +1,43 @@
-import React from 'react';
-import {ChannelList, useChatContext} from 'stream-chat-react';
-import ChannelSearch from './ChannelSearch';
-import CompanyHeader from './CompanyHeader';
-import SideBar from './SideBar';
-import TeamChannelList from './TeamChannelList'
-import TeamChanellPreview from './TeamChanellPreview';
+import React, {useState} from 'react';
+import ChannelListContent from './ChannelListContent';
 
 const ChanellListContainer = ({
-  isCreating,
-  setIsCreating,
-  setCreateType,
+  setCreateType, 
+  setIsCreating, 
   setIsEditing
 }) => {
+
+  const [toggleContainer, setToggleContainer] = useState(false)
+
+
   return (
     <>
-      <SideBar />
-      <div className="channel-list__list__wrapper">
-
-        <CompanyHeader />
-        <ChannelSearch />
-        <ChannelList
-          filters={{}}
-          channelRenderFilterFn={() => {}}
-          List={(listProps) => {
-            return <TeamChannelList
-              {...listProps}
-              type='team'
-              isCreating={isCreating}
-              setIsCreating={setIsCreating}
-              setCreateType={setCreateType}
-              setIsEditing={setIsEditing}
-            />
-          }}
-          Preview={(previewProps) => (
-            <TeamChanellPreview {...previewProps} type='team'/>
-          )}
+      <div className="channel-list__container">
+        <ChannelListContent
+          setIsCreating={setIsCreating}
+          setCreateType={setCreateType}
+          setIsEditing={setIsEditing}
         />
-
-        <ChannelList
-          filters={{}}
-          channelRenderFilterFn={() => {}}
-          List={(listProps) => {
-            return <TeamChannelList
-              {...listProps} 
-              type='messaging'
-              isCreating={isCreating}
-              setIsCreating={setIsCreating}
-              setCreateType={setCreateType}
-              setIsEditing={setIsEditing}
-            />
-          }}
-          Preview={(previewProps) => (
-            <TeamChanellPreview {...previewProps} type='messaging'/>
-          )}
-        />  
-
       </div>
+      <div 
+        className="channel-list__container-responsive"
+        style={{left:toggleContainer ? '0%' : '-89%', backgroundColor: '#005fff'}}>
+        <div 
+          className="channel-list__container-toggle"
+          onClick={() => setToggleContainer(prev => !prev)}>
+
+          <ChannelListContent
+            setIsCreating={setIsCreating}
+            setCreateType={setCreateType}
+            setIsEditing={setIsEditing}
+            setToggleContainer={setToggleContainer}
+          />
+
+        </div>
+      </div>
+      
     </>
-  );
-};
+  )
+}
 
 export default ChanellListContainer;

@@ -6,12 +6,14 @@ const TeamChannelList = ({
   error = false,
   loading,
   type,
-
+  setToggleContainer,
   isCreating,
   setIsCreating,
   setCreateType,
   setIsEditing
 }) => {
+
+  console.log(children);
 
   if(error) {
     return type === 'team' ?
@@ -46,6 +48,7 @@ const TeamChannelList = ({
           setCreateType={setCreateType}
           setIsEditing={setIsEditing}
           type={type === 'team' ? 'team' : 'messaging'}
+          setToggleContainer={setToggleContainer}
         />
       </div>
     </div>
