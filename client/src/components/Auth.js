@@ -31,14 +31,14 @@ const Auth = () => {
   
   const handleSumbit = async (e) => {
     e.preventDefault();
-    const {fullName, userName, password, avatarURL, phoneNumber} = form;
+    const {userName, password, avatarURL, phoneNumber} = form;
 
     const cookies = new Cookies()
+    
 
-    const data = isSignup ? await signUp({fullName, userName, password, avatarURL, phoneNumber}) : await login({userName, password})
+    const data = isSignup ? await signUp({fullName: form.fullName, userName, password, avatarURL, phoneNumber}) : await login({userName, password})
 
-    const {token, userId, hashedPassword} = data;
-
+    const {token, userId, hashedPassword, fullName} = data;
 
     cookies.set('token', token, {path: '/', expires: new Date(Date.now()+86400000)})
     cookies.set('userId', userId, {path: '/', expires: new Date(Date.now()+86400000)})

@@ -18,18 +18,21 @@ const ListContainer = ({children}) => {
   )
 }
 
-const UserItem = ({user, setSelectedUsers}) => {
+const UserItem = ({user, setSelectedUsers, selectedUsers, createType, currentUser}) => {
 
-  const [selected, setSelected] = useState(false)
+  const selected = selectedUsers.includes(user.id);
 
   const handleSelect = () => {
     if(selected) {
       setSelectedUsers(prevUsers => prevUsers.filter(prev => prev !== user.id) )
     }
     else {
-      setSelectedUsers(prevUsers => [...prevUsers, user.id])
+      if(createType === 'team') {
+        setSelectedUsers(prevUsers => [...prevUsers, user.id])
+      }
+      else setSelectedUsers([currentUser, user.id])
     }
-    setSelected(prev => !prev)
+    console.log(selectedUsers);
   }
 
   return (
@@ -52,7 +55,7 @@ const UserItem = ({user, setSelectedUsers}) => {
   )
 }
 
-const UserList = ({setSelectedUsers}) => {
+const UserList = ({setSelectedUsers, selectedUsers, createType}) => {
 
   const {client} = useChatContext();
 
@@ -124,7 +127,17 @@ const UserList = ({setSelectedUsers}) => {
         loading ? 
         <div className="user-list__message">Loading User...</div>
         :
-        (users.map((user, i) => <UserItem index={i} key={user.id} user={user} setSelectedUsers={setSelectedUsers} />))
+        (users.map((user, i) => (
+          <UserItem 
+            index={i} 
+            key={user.id} 
+            user={user}
+            currentUser={client.userID}
+            setSelectedUsers={setSelectedUsers} 
+            selectedUsers={selectedUsers} 
+            createType={createType} 
+          />
+        )))
       }
     </ListContainer>
   );

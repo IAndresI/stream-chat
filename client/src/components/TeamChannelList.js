@@ -13,8 +13,6 @@ const TeamChannelList = ({
   setIsEditing
 }) => {
 
-  console.log(children);
-
   if(error) {
     return type === 'team' ?
       (
@@ -51,6 +49,7 @@ const TeamChannelList = ({
           setToggleContainer={setToggleContainer}
         />
       </div>
+      {children}
     </div>
   );
 };

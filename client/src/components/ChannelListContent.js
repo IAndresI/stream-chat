@@ -4,13 +4,12 @@ import SideBar from "./SideBar";
 import TeamChanellPreview from "./TeamChanellPreview";
 import TeamChannelList from "./TeamChannelList";
 
-
 const customChannelTeamFilter = (channels) => {
   return channels.filter((channel) => channel.type==='team')
 }
 
 const customChannelMessagingFilter = (messages) => {
-  return messages.filter((message) => message.type==='team')
+  return messages.filter((message) => message.type==='messaging')
 }
 
 const ChannelListContent = ({
