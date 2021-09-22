@@ -1,8 +1,10 @@
-import { ChannelList, ChannelSearch, useChatContext } from "stream-chat-react";
+import { ChannelList, useChatContext } from "stream-chat-react";
 import CompanyHeader from "./CompanyHeader";
 import SideBar from "./SideBar";
 import TeamChanellPreview from "./TeamChanellPreview";
 import TeamChannelList from "./TeamChannelList";
+import ChannelSearch from "./ChannelSearch";
+
 
 const customChannelTeamFilter = (channels) => {
   return channels.filter((channel) => channel.type==='team')
@@ -30,7 +32,9 @@ const ChannelListContent = ({
       <div className="channel-list__list__wrapper">
 
         <CompanyHeader />
-        <ChannelSearch />
+        <ChannelSearch
+          setToggleContainer={setToggleContainer}
+        />
         <ChannelList
           filters={filters}
           channelRenderFilterFn={customChannelTeamFilter}
