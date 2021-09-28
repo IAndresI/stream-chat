@@ -31,7 +31,7 @@ class AuthController {
 
       const {users} = await client.queryUsers({name: userName})
 
-      if(!users) {
+      if(!users.length) {
         return res.status(400).json({message: "User not found"})
       }
 

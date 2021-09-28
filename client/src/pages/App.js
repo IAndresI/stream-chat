@@ -6,9 +6,15 @@ import ChanellContainer from '../components/ChanellContainer';
 import dotenv from 'dotenv';
 import Auth from '../components/Auth'
 import Cookies from 'universal-cookie';
+import AlertContext from '../context/AlertContext';
+import Alert from '../components/Alert';
 
 import 'stream-chat-react/dist/css/index.css'
 import '../App.css';
+
+import { ALERT_ERROR, ALERT_INFO, ALERT_SUCCESS, ALERT_WARNING } from '../utils/consts';
+
+
 
 dotenv.config();
 
@@ -35,28 +41,49 @@ function App() {
   const [isCreating, setIsCreating] = useState('')
   const [isEditing, setIsEditing] = useState('')
 
-  if(!authToken) return <Auth />
+  const [alert, setAlert] = useState({
+    open: false,
+    ...ALERT_ERROR,
+    timer: 3000,
+    text: 'Theres some text for test'
+  })
   
   return (
     <div className="app__wrapper">
-      <Chat client={client} theme="team dark">
-
-        <ChanellListContainer
-          isCreating={isCreating}
-          setIsCreating={setIsCreating}
-          setCreateType={setCreateType}
-          setIsEditing={setIsEditing}
-        />
-
-        <ChanellContainer
-          createType={createType}
-          isCreating={isCreating}
-          setIsCreating={setIsCreating}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-        />
-
-      </Chat>
+      <AlertContext.Provider value={setAlert}>
+        {
+          !authToken ? 
+          <Auth /> 
+          :
+          <Chat client={client} theme="team">
+            <ChanellListContainer
+              isCreating={isCreating}
+              setIsCreating={setIsCreating}
+              setCreateType={setCreateType}
+              setIsEditing={setIsEditing}
+            />
+            <ChanellContainer
+              createType={createType}
+              isCreating={isCreating}
+              setIsCreating={setIsCreating}
+              isEditing={isEditing}
+              setIsEditing={setIsEditing}
+            />
+          </Chat>
+        }
+        
+      </AlertContext.Provider>
+      <Alert status={alert} setStatus={setAlert}/>
+      <button onClick={() => {
+        setAlert({
+          open: true,
+          ...ALERT_ERROR,
+          timer: 3000,
+          text: 'Theres some text for test'
+        })
+      }}>
+        sfdsdfsdf
+      </button>
     </div>
   );
 }

@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { login, signUp } from '../http/authAPI';
 import Cookies from 'universal-cookie';
+import AlertContext from '../context/AlertContext';
 
 import signinImage from '../assets/signup.jpg'
+import { ALERT_ERROR } from '../utils/consts';
 
 const initialState = {
   fullName: '',
@@ -14,6 +16,8 @@ const initialState = {
 }
 
 const Auth = () => {
+
+  const setAlert = useContext(AlertContext)
 
   const [isSignup, setIsSignup] = useState(true)
   const [form, setForm] = useState(initialState)
@@ -35,23 +39,33 @@ const Auth = () => {
 
     const cookies = new Cookies()
     
+    try {
+      const data = isSignup ? await signUp({fullName: form.fullName, userName, password, avatarURL, phoneNumber}) : await login({userName, password})
 
-    const data = isSignup ? await signUp({fullName: form.fullName, userName, password, avatarURL, phoneNumber}) : await login({userName, password})
+      const {token, userId, hashedPassword, fullName} = data;
 
-    const {token, userId, hashedPassword, fullName} = data;
+      cookies.set('token', token, {path: '/', expires: new Date(Date.now()+86400000)})
+      cookies.set('userId', userId, {path: '/', expires: new Date(Date.now()+86400000)})
+      cookies.set('userName', userName, {path: '/', expires: new Date(Date.now()+86400000)})
+      cookies.set('fullName', fullName, {path: '/', expires: new Date(Date.now()+86400000)})
 
-    cookies.set('token', token, {path: '/', expires: new Date(Date.now()+86400000)})
-    cookies.set('userId', userId, {path: '/', expires: new Date(Date.now()+86400000)})
-    cookies.set('userName', userName, {path: '/', expires: new Date(Date.now()+86400000)})
-    cookies.set('fullName', fullName, {path: '/', expires: new Date(Date.now()+86400000)})
+      if(isSignup) {
+        cookies.set('avatarURL', avatarURL, {path: '/', expires: new Date(Date.now()+86400000)})
+        cookies.set('phoneNumber', phoneNumber, {path: '/', expires: new Date(Date.now()+86400000)})
+        cookies.set('hashedPassword', hashedPassword, {path: '/', expires: new Date(Date.now()+86400000)})
+      }
 
-    if(isSignup) {
-      cookies.set('avatarURL', avatarURL, {path: '/', expires: new Date(Date.now()+86400000)})
-      cookies.set('phoneNumber', phoneNumber, {path: '/', expires: new Date(Date.now()+86400000)})
-      cookies.set('hashedPassword', hashedPassword, {path: '/', expires: new Date(Date.now()+86400000)})
+      window.location.reload();
+    } catch (error) {
+      setAlert({
+        ...ALERT_ERROR,
+        text: error.response.data.message || 'Unexpected error!',
+        timer: 7000,
+        open: true
+      })
     }
 
-    window.location.reload();
+    
   }
   
 
