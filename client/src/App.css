@@ -474,6 +474,7 @@ body {
   font-family: Helvetica Neue, sans-serif;
   font-size: 16px;
   outline: none;
+  padding-top: 4px;
 }
 
 ::placeholder {
@@ -1729,9 +1730,14 @@ div.rta__autocomplete.str-chat__emojisearch {
   position: fixed;
   bottom: 20px;
   left: 50%;
-  transition: all 0.5s;
+  transform: translateX(-50%)
+}
+
+.alert__wrapper {
   transform: translateY(200%);
+  transition: all 0.5s;
   opacity: 0;
+  border: none;
   min-width: 300px;
   padding: 15px 30px;
   display: flex;
@@ -1741,7 +1747,7 @@ div.rta__autocomplete.str-chat__emojisearch {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.alert.alert--open {
+.alert--open {
   transform: translateY(0px);
   opacity: 1;
 }
@@ -1749,6 +1755,7 @@ div.rta__autocomplete.str-chat__emojisearch {
 .alert__text {
   text-align: center;
   width: 100%;
+  font-size: 16px;
   font-weight: 600;
 }
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useChatContext } from 'stream-chat-react';
 import { CloseCreateChannel } from '../assets';
-import ChannelNameInput from './ChannelNameInput';
+import NameInput from './NameInput';
 import UserList from './UserList';
 
 
@@ -10,6 +10,7 @@ const CreateChannel = ({createType, setIsCreating}) => {
   const {client, setActiveChannel} = useChatContext();
 
   const [channelName, setChannelName] = useState('')
+  const [userName, setUserName] = useState('')
   const [selectedUsers, setSelectedUsers] = useState([client.userID || ''])
 
   const createChannel = async (e) => {
@@ -42,15 +43,20 @@ const CreateChannel = ({createType, setIsCreating}) => {
       {
         createType ==='team' ? 
         (
-          <ChannelNameInput
-           channelName={channelName}
-           setChannelName={setChannelName}
+          <NameInput
+            name={channelName}
+            setName={setChannelName}
          />
         )
         :
         null
       }
-      <UserList setSelectedUsers={setSelectedUsers} selectedUsers={selectedUsers} createType={createType} />
+      <NameInput
+        name={userName}
+        setName={setUserName}
+        type='user'
+      />
+      <UserList setSelectedUsers={setSelectedUsers} selectedUsers={selectedUsers} createType={createType} search={createType ==='team' ? userName : null} />
       <div 
         className="create-channel__button-wrapper"
         onClick={createChannel}>

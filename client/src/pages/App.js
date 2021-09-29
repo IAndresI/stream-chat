@@ -12,10 +12,6 @@ import Alert from '../components/Alert';
 import 'stream-chat-react/dist/css/index.css'
 import '../App.css';
 
-import { ALERT_ERROR, ALERT_INFO, ALERT_SUCCESS, ALERT_WARNING } from '../utils/consts';
-
-
-
 dotenv.config();
 
 const client = StreamChat.getInstance(process.env.REACT_APP_API_KEY)
@@ -43,8 +39,7 @@ function App() {
 
   const [alert, setAlert] = useState({
     open: false,
-    ...ALERT_ERROR,
-    timer: 3000,
+    type: '',
     text: 'Theres some text for test'
   })
   
@@ -74,16 +69,6 @@ function App() {
         
       </AlertContext.Provider>
       <Alert status={alert} setStatus={setAlert}/>
-      <button onClick={() => {
-        setAlert({
-          open: true,
-          ...ALERT_ERROR,
-          timer: 3000,
-          text: 'Theres some text for test'
-        })
-      }}>
-        sfdsdfsdf
-      </button>
     </div>
   );
 }

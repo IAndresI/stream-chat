@@ -55,7 +55,7 @@ const UserItem = ({user, setSelectedUsers, selectedUsers, createType, currentUse
   )
 }
 
-const UserList = ({setSelectedUsers, selectedUsers, createType}) => {
+const UserList = ({setSelectedUsers, selectedUsers, createType, search}) => {
 
   const {client} = useChatContext();
 
@@ -73,9 +73,22 @@ const UserList = ({setSelectedUsers, selectedUsers, createType}) => {
       }
 
       try {
-        const response = await client.queryUsers(
+        const response = search ? await client.queryUsers(
           {
-            id: {$ne: client.userID}
+            id: {$ne: client.userID },
+            name: {$autocomplete: search}
+          },
+          {
+            id: 1
+          },
+          {
+            limit: 8
+          }
+        )
+        :
+        await client.queryUsers(
+          {
+            id: {$ne: client.userID },
           },
           {
             id: 1
@@ -84,7 +97,7 @@ const UserList = ({setSelectedUsers, selectedUsers, createType}) => {
             limit: 8
           }
         );
-
+        setError(false)
         if(response.users.length) {
           setUsers(response.users)
           setListEmpty(false)
@@ -101,21 +114,22 @@ const UserList = ({setSelectedUsers, selectedUsers, createType}) => {
 
     if(client) getUsers();
     
-  }, [])
+  }, [search])
+ 
 
-  if(error) {
+  if(listEmpty || search ==='') {
     return (
       <ListContainer>
-        <div className="user-list__message">Error loading, please refresh and try again</div>
+        <div className="user-list__message">No Users Found</div>
       </ListContainer>
       
     )
   }
 
-  if(listEmpty) {
+  if(error) {
     return (
       <ListContainer>
-        <div className="user-list__message">No Users Found</div>
+        <div className="user-list__message">Error loading, please refresh and try again</div>
       </ListContainer>
       
     )

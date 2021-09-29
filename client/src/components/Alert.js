@@ -12,6 +12,8 @@ const Alert = ({status: {open, timer, type, text}, setStatus}) => {
       const time = setTimeout(() => {
         setStatus({open: false, timer, type, text})
       }, timer)
+
+      return () => clearTimeout(time)
     }
   }, [timer, type, text, setStatus, open])
 
@@ -46,14 +48,21 @@ const Alert = ({status: {open, timer, type, text}, setStatus}) => {
   }
 
   return (
-    <div 
-      className={`alert ${open ? 'alert--open' : ''}`}
-      style={{backgroundColor: getBackgroundColor(type)}}
-    >
-      {getIcon(type)}
-      <div className='alert__text'>
-        {text}
-      </div>
+    <div className='alert'>
+      <button 
+        className={`alert__wrapper ${open ? 'alert--open' : ''}`}
+        style={{backgroundColor: getBackgroundColor(type)}}
+        onClick={() => {
+          if(open) {
+            setStatus({open: false, timer, type, text})
+          }
+        }}
+        >
+        {getIcon(type)}
+        <div className='alert__text'>
+          {text}
+        </div>
+      </button>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { getChannel, useChatContext } from 'stream-chat-react';
+import { useChatContext } from 'stream-chat-react';
 import {SearchIcon} from '../assets/SearchIcon'
 import ResultsDropdown from './ResultsDropdown';
 
@@ -57,7 +57,7 @@ const ChannelSearch = ({setToggleContainer}) => {
   return (
     <div className="channel-search__container">
       <div className="channel-search__input__wrapper">
-        <div className="channel-serach__input__icon">
+        <div className="channel-search__input__icon">
             <SearchIcon />
         </div>
         <input 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useChatContext } from 'stream-chat-react';
 import { CloseCreateChannel } from '../assets';
 import UserList from '../components/UserList'
-import ChannelNameInput from '../components/ChannelNameInput'
+import ChannelNameInput from './NameInput'
 
 
 const EditChannel = ({setIsEditing}) => {
