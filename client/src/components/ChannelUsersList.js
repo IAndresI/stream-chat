@@ -19,7 +19,7 @@ const ListContainer = ({children}) => {
   )
 }
 
-const UserItem = ({user, setSelectedUsers, selectedUsers, createType, currentUser}) => {
+const UserItem = ({user, setSelectedUsers, selectedUsers, createType, currentUser, type}) => {
 
   const selected = selectedUsers.includes(user.id);
 
@@ -33,6 +33,7 @@ const UserItem = ({user, setSelectedUsers, selectedUsers, createType, currentUse
       }
       else setSelectedUsers([currentUser, user.id])
     }
+    console.log(selectedUsers);
   }
 
   return (
@@ -46,6 +47,11 @@ const UserItem = ({user, setSelectedUsers, selectedUsers, createType, currentUse
       {
         selected ? 
         (
+          type === 'member' ?
+          (
+            <RemoveIcon />
+          )
+          :
           <InviteIcon />
         )
         :
@@ -55,7 +61,7 @@ const UserItem = ({user, setSelectedUsers, selectedUsers, createType, currentUse
   )
 }
 
-const UserList = ({setSelectedUsers, selectedUsers, createType, search, type}) => {
+const ChannelUsersList = ({setSelectedUsers, selectedUsers, channel, search, type}) => {
 
   const {client} = useChatContext();
 
@@ -73,38 +79,20 @@ const UserList = ({setSelectedUsers, selectedUsers, createType, search, type}) =
       }
 
       try {
-        const response = search ? await client.queryUsers(
-          {
-            id: {$ne: client.userID },
-            name: {$autocomplete: search}
-          },
-          {
-            id: 1
-          },
-          {
-            limit: 8
-          }
-        )
-        :
-        await client.queryUsers(
-          {
-            id: {$ne: client.userID },
-          },
-          {
-            id: 1
-          },
-          {
-            limit: 8
-          }
-        );
-        setError(false)
-        if(response.users.length) {
-          setUsers(response.users)
+        
+        const response = await channel.queryMembers({
+          id: {$ne: client.userID }
+        });
+
+        if(response.members.length) {
+          setUsers(response.members)
           setListEmpty(false)
         }
         else {
           setListEmpty(true)
         }
+        
+        setError(false)
       }
       catch(err) {
         setError(true)
@@ -144,13 +132,13 @@ const UserList = ({setSelectedUsers, selectedUsers, createType, search, type}) =
         (users.map((user, i) => (
           <UserItem 
             index={i} 
-            key={user.id} 
-            user={user}
+            key={user.user.id} 
+            user={user.user}
             currentUser={client.userID}
             setSelectedUsers={setSelectedUsers} 
-            selectedUsers={selectedUsers} 
-            createType={createType}
-            type={type}
+            selectedUsers={selectedUsers}
+            type="member"
+            createType='team'
           />
         )))
       }
@@ -158,4 +146,4 @@ const UserList = ({setSelectedUsers, selectedUsers, createType, search, type}) =
   );
 };
 
-export default UserList;
+export default ChannelUsersList;
