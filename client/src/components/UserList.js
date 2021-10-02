@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Avatar, useChatContext } from 'stream-chat-react';
 import { InviteIcon } from '../assets';
-import { RemoveIcon } from '../assets/RemoveIcon';
 
 const ListContainer = ({children}) => {
   return (
@@ -83,6 +82,9 @@ const UserList = ({setSelectedUsers, selectedUsers, createType, search, type}) =
           },
           {
             limit: 8
+          },
+          {
+            sort: [{created_at: 1}]
           }
         )
         :

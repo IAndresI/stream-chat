@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { useChatContext } from 'stream-chat-react';
 import { CloseCreateChannel } from '../assets';
+import AlertContext from '../context/AlertContext';
+import { ALERT_ERROR } from '../utils/consts';
 import NameInput from './NameInput';
 import UserList from './UserList';
 
@@ -8,6 +10,7 @@ import UserList from './UserList';
 const CreateChannel = ({createType, setIsCreating}) => {
 
   const {client, setActiveChannel} = useChatContext();
+  const setAlert = useContext(AlertContext)
 
   const [channelName, setChannelName] = useState('')
   const [userName, setUserName] = useState('')
@@ -16,6 +19,15 @@ const CreateChannel = ({createType, setIsCreating}) => {
   const createChannel = async (e) => {
     e.preventDefault();
     try {
+
+      if(channelName.trim().length < 2) {
+        setAlert({
+          ...ALERT_ERROR,
+          text: 'Channel name must be more than 2 characters',
+          timer: 7000,
+          open: true
+        })
+      }
 
       const newChannel = await client.channel(createType, channelName, {name: channelName, members: selectedUsers})
       await newChannel.watch();

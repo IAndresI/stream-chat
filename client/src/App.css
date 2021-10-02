@@ -375,6 +375,8 @@ body {
 }
 
 .channel-list__sidebar__icon1 {
+  cursor: pointer;
+  border: none;
   width: 44px;
   height: 44px;
   margin: 14px;
@@ -384,6 +386,26 @@ body {
     #ffffff;
   border-radius: 9999px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.5s;
+  transform: scale(1);
+}
+
+.channel-list__sidebar__icon1:hover,
+.channel-list__sidebar__icon1:focus {
+  transform: scale(1.15);
+}
+
+.channel-list__sidebar__icon1:active {
+  transform: scale(1);
+}
+
+.channel-list__sidebar__icon2:hover,
+.channel-list__sidebar__icon2:focus {
+  transform: scale(1.15);
+}
+
+.channel-list__sidebar__icon2:active {
+  transform: scale(1);
 }
 
 .channel-list__list__wrapper {
@@ -402,6 +424,8 @@ body {
 }
 
 .channel-list__sidebar__icon2 {
+  cursor: pointer;
+  border: none;
   width: 44px;
   height: 44px;
   margin: 14px;
@@ -412,6 +436,7 @@ body {
   border-radius: 9999px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.33);
   cursor: pointer;
+  transition: all 0.5s;
 }
 
 .icon2__inner {
@@ -520,6 +545,19 @@ body {
   height: 48px;
   display: flex;
   align-items: center;
+  transition: all 0.5s;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.channel-search__result-container:hover,
+.channel-search__result-container:focus {
+  background: var(--primary-color-alpha);
+}
+
+.channel-search__result-container:active {
+  background-color: transparent;
 }
 
 .channel-search__result-container__focused {
@@ -527,6 +565,7 @@ body {
   height: 48px;
   display: flex;
   align-items: center;
+  transition: all 0.5s;
   background: var(--primary-color-alpha);
 }
 
@@ -962,12 +1001,44 @@ body {
 }
 
 .channel-preview__wrapper {
+  background-color: transparent;
+  border: none;
   height: 37px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  transition: all 0.5s;
+}
+
+.channel-preview__wrapper:hover,
+.channel-preview__wrapper:focus {
+  background-color: transparent;
+  border: none;
+  height: auto;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  font-weight: bold;
+  margin-right: 16px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.channel-preview__wrapper:active {
+  background-color: transparent;
+  border: none;
+  height: 37px;
+  overflow: hidden;
   display: flex;
   align-items: center;
 }
 
 .channel-preview__wrapper__selected {
+  transition: all 0.5s;
+  background-color: transparent;
+  border: none;
   height: auto;
   display: flex;
   align-items: center;

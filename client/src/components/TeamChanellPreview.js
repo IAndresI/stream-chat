@@ -28,7 +28,7 @@ const TeamChanellPreview = ({channel, type, setToggleContainer, setIsCreating, s
   }
 
   return (
-    <div 
+    <button 
       className={
         channel?.id === activeChannel?.id ?
          'channel-preview__wrapper__selected' 
@@ -44,7 +44,7 @@ const TeamChanellPreview = ({channel, type, setToggleContainer, setIsCreating, s
       }}
     >
       {type==='team' ? <ChannelPreview /> : <DirectPreview />}
-    </div>
+    </button>
   );
 };
 

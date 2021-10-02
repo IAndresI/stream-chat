@@ -24,7 +24,7 @@ const SearchResult = ({ channel, focusedId, type, setChannel, setToggleContainer
 
   if (type === 'channel') {
     return (
-      <div
+      <button
         onClick={() => {
           setChannel(channel)
           if(setToggleContainer) {
@@ -35,12 +35,12 @@ const SearchResult = ({ channel, focusedId, type, setChannel, setToggleContainer
       >
         <div className='result-hashtag'>#</div>
         <p className='channel-search__result-text'>{channel.data.name}</p>
-      </div>
+      </button>
     );
   }
 
   return (
-    <div
+    <button
       onClick={async () => {
         channelByUser({ client, setActiveChannel, channel, setChannel })
         if(setToggleContainer) {
@@ -53,7 +53,7 @@ const SearchResult = ({ channel, focusedId, type, setChannel, setToggleContainer
         <Avatar image={channel.image || undefined} name={channel.name} size={24} />
         <p className='channel-search__result-text'>{channel.name}</p>
       </div>
-    </div>
+    </button>
   );
 };
 

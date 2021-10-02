@@ -35,7 +35,17 @@ const Auth = () => {
   
   const handleSumbit = async (e) => {
     e.preventDefault();
-    const {userName, password, avatarURL, phoneNumber} = form;
+    const {userName, password, avatarURL, phoneNumber, confirmPassword} = form;
+
+    if(password !== confirmPassword && isSignup) {
+      setAlert({
+        ...ALERT_ERROR,
+        text: 'Password and confirm password do not match',
+        timer: 7000,
+        open: true
+      })
+      return;
+    }
 
     const cookies = new Cookies()
     

@@ -8,14 +8,20 @@ const {STREAM_API_KEY, STREAM_API_SECRET_KEY, STREAM_APP_ID} = process.env
 class AuthController {
   async signUp(req, res) {
     try {
-      const { fullName, lastName, phoneNumber, avatar, password} = req.body;
+      const { fullName, userName, phoneNumber, avatar, password} = req.body;
       const userId = crypto.randomBytes(16).toString('hex');
       const hashedPassword = await bcrypt.hash(password, 10);
+      const client = StreamChat.getInstance(STREAM_API_KEY, STREAM_API_SECRET_KEY);
+      const {users} = await client.queryUsers({name: userName})
+
+      if(users.length) {
+        res.status(500).json({message: 'This user name already axists!'});
+      }
 
       const serverClient = connect(STREAM_API_KEY, STREAM_API_SECRET_KEY, STREAM_APP_ID);
       const token = serverClient.createUserToken(userId)
 
-      res.status(200).json({token, fullName, lastName, phoneNumber, avatar, hashedPassword, userId})
+      res.status(200).json({token, fullName, name: userName, phoneNumber, avatar, hashedPassword, userId})
     }
     catch(err) {
       res.status(500).json({message: err.message});
