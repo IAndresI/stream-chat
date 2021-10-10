@@ -61,7 +61,7 @@ const UserItem = ({user, setSelectedUsers, selectedUsers, createType, currentUse
   )
 }
 
-const ChannelUsersList = ({setSelectedUsers, selectedUsers, channel, search, type}) => {
+const ChannelUsersList = ({setCurrentUsers, setSelectedCurrentUsers, selectedCurrentUsers, channel, search, type}) => {
 
   const {client} = useChatContext();
 
@@ -86,6 +86,7 @@ const ChannelUsersList = ({setSelectedUsers, selectedUsers, channel, search, typ
 
         if(response.members.length) {
           setUsers(response.members)
+          setCurrentUsers(response.members)
           setListEmpty(false)
         }
         else {
@@ -135,8 +136,8 @@ const ChannelUsersList = ({setSelectedUsers, selectedUsers, channel, search, typ
             key={user.user.id} 
             user={user.user}
             currentUser={client.userID}
-            setSelectedUsers={setSelectedUsers} 
-            selectedUsers={selectedUsers}
+            setSelectedUsers={setSelectedCurrentUsers} 
+            selectedUsers={selectedCurrentUsers}
             type="member"
             createType='team'
           />

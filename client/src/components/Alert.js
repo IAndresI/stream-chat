@@ -47,6 +47,8 @@ const Alert = ({status: {open, timer, type, text}, setStatus}) => {
     }
   }
 
+  const chatIsNotEnable = 'StreamChat error code 2: QueryUsers failed with error: "Chat is not enabled for your account, your trial is either expired or not activated. Check https://getstream.io/pricing/chat/ or reach out to support"'
+
   return (
     <div className='alert'>
       <button 
@@ -60,7 +62,7 @@ const Alert = ({status: {open, timer, type, text}, setStatus}) => {
         >
         {getIcon(type)}
         <div className='alert__text'>
-          {text}
+          {text === chatIsNotEnable ? "Trial Time Expired" : text}
         </div>
       </button>
     </div>

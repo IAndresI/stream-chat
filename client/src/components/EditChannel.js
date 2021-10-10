@@ -11,6 +11,7 @@ const EditChannel = ({setIsEditing}) => {
   const {channel} = useChatContext();
   const [channelName, setChannelName] = useState(channel?.data?.name)
   const [selectedUsers, setSelectedUsers] = useState([])
+  const [selectedCurrentUsers, setSelectedCurrentUsers] = useState([])
   const [currentUsers, setCurrentUsers] = useState([])
 
   const updateChannel = async (e) => {
@@ -25,8 +26,8 @@ const EditChannel = ({setIsEditing}) => {
       await channel.addMembers(selectedUsers)
     }
 
-    if(currentUsers.length) {
-      await channel.removeMembers(currentUsers)
+    if(selectedCurrentUsers.length) {
+      await channel.removeMembers(selectedCurrentUsers)
     }
 
     setChannelName(null)
@@ -34,15 +35,17 @@ const EditChannel = ({setIsEditing}) => {
     setSelectedUsers([])
   }
 
+  console.log(currentUsers);
+
   return (
     <div className="edit-channel__container">
       <div className="edit-channel__header">
         <p>Edit Channel</p>
         <CloseCreateChannel setIsEditing={setIsEditing}/>
       </div>
-      <ChannelNameInput channelName={channelName} setChannelName={setChannelName} />
-      <ChannelUsersList setSelectedUsers={setCurrentUsers} selectedUsers={currentUsers} channel={channel}/>
-      <UserList setSelectedUsers={setSelectedUsers} selectedUsers={selectedUsers} createType='team'/>
+      <ChannelNameInput name={channelName} setName={setChannelName} />
+      <ChannelUsersList setSelectedCurrentUsers={setSelectedCurrentUsers} selectedCurrentUsers={selectedCurrentUsers} setCurrentUsers={setCurrentUsers} channel={channel}/>
+      <UserList setSelectedUsers={setSelectedUsers} selectedUsers={selectedUsers} currentUsers={currentUsers} createType='team'/>
       <div 
         className="edit-channel__button-wrapper"
         onClick={updateChannel}>

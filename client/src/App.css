@@ -1799,6 +1799,7 @@ div.rta__autocomplete.str-chat__emojisearch {
 
 .alert {
   position: fixed;
+  z-index: 10;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%)

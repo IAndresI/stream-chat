@@ -68,7 +68,7 @@ const CreateChannel = ({createType, setIsCreating}) => {
         setName={setUserName}
         type='user'
       />
-      <UserList setSelectedUsers={setSelectedUsers} selectedUsers={selectedUsers} createType={createType} search={createType ==='team' ? userName : null} />
+      <UserList setSelectedUsers={setSelectedUsers} selectedUsers={selectedUsers} createType={createType} search={userName} />
       <div 
         className="create-channel__button-wrapper"
         onClick={createChannel}>

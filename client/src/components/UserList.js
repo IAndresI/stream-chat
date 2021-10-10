@@ -54,7 +54,7 @@ const UserItem = ({user, setSelectedUsers, selectedUsers, createType, currentUse
   )
 }
 
-const UserList = ({setSelectedUsers, selectedUsers, createType, search, type}) => {
+const UserList = ({setSelectedUsers, selectedUsers, currentUsers, createType, search, type}) => {
 
   const {client} = useChatContext();
 
@@ -62,6 +62,7 @@ const UserList = ({setSelectedUsers, selectedUsers, createType, search, type}) =
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
   const [listEmpty, setListEmpty] = useState(false)
+
 
   useEffect(() => {
 
@@ -71,10 +72,12 @@ const UserList = ({setSelectedUsers, selectedUsers, createType, search, type}) =
         setLoading(true)
       }
 
+      const alreadyEnteredUsers = currentUsers ? [client.userID,...currentUsers.map(user => user.user_id)] : [client.userID]
+
       try {
         const response = search ? await client.queryUsers(
           {
-            id: {$ne: client.userID },
+            id: {$nin: alreadyEnteredUsers },
             name: {$autocomplete: search}
           },
           {
@@ -90,7 +93,7 @@ const UserList = ({setSelectedUsers, selectedUsers, createType, search, type}) =
         :
         await client.queryUsers(
           {
-            id: {$ne: client.userID },
+            id: {$nin: alreadyEnteredUsers },
           },
           {
             id: 1
@@ -116,13 +119,13 @@ const UserList = ({setSelectedUsers, selectedUsers, createType, search, type}) =
 
     if(client) getUsers();
     
-  }, [search])
+  }, [search, currentUsers])
  
 
   if(listEmpty || search ==='') {
     return (
       <ListContainer>
-        <div className="user-list__message">No Users Found</div>
+        <div className="user-list__message">{search==='' ? "Enter User Name" : "No Users Found"}</div>
       </ListContainer>
       
     )
